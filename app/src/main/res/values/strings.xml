@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Donut Club</string>
+    <string name="action_settings">Settings</string>
+    <string name="greeting">Enter your phone number</string>
+    <string name="event_current_when">When?</string>
+    <string name="event_current_where">Where?</string>
+    <string name="deadline_to_rsvp">Deadline to RSVP</string>
+    <string name="zero">0</string>
+    <string name="rsvp_button_text">I\'m going</string>
+</resources>
