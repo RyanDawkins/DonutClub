@@ -5,15 +5,14 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import ryanddawkins.com.donutclub.data.access.DataListenerAdapter;
+import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpListAccess;
-import ryanddawkins.com.donutclub.data.access.RsvpListCallback;
+import ryanddawkins.com.donutclub.data.access.UserAccess;
 import ryanddawkins.com.donutclub.data.formatters.EventDateFormatter;
-import ryanddawkins.com.donutclub.data.pojo.User;
+import ryanddawkins.com.donutclub.data.pojo.Rsvp;
 
 /**
  * Created by ryan on 3/5/16.
@@ -22,12 +21,12 @@ public class FirebaseRsvpListAccess implements RsvpListAccess {
 
     /**
      * This method makes a request to the
-     * @param rsvpListCallback
+     * @param getUserCallback
      * @param eventDate
      * @return
      */
     @Override
-    public DataListenerAdapter getRsvpList(final RsvpListCallback rsvpListCallback, Date eventDate) {
+    public DataListenerAdapter getRsvpList(final GetUserCallback getUserCallback, Date eventDate) {
 
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
 
@@ -38,12 +37,12 @@ public class FirebaseRsvpListAccess implements RsvpListAccess {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<User> rsvpList = new ArrayList<User>((int) dataSnapshot.getChildrenCount());
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    rsvpList.add(childSnapshot.getValue(User.class));
-                }
+                    Rsvp rsvp = childSnapshot.getValue(Rsvp.class);
 
-                rsvpListCallback.onGetList(rsvpList);
+                    UserAccess userAccess = new FirebaseUserAccess();
+                    userAccess.getUser(getUserCallback, rsvp.getUsername());
+                }
             }
 
             @Override

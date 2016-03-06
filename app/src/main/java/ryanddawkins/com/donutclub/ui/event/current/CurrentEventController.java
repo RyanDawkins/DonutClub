@@ -1,16 +1,17 @@
 package ryanddawkins.com.donutclub.ui.event.current;
 
 import java.util.Date;
-import java.util.List;
 
+import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpListAccess;
-import ryanddawkins.com.donutclub.data.access.RsvpListCallback;
 import ryanddawkins.com.donutclub.data.pojo.User;
+import ryanddawkins.com.donutclub.data.services.CurrentEventDateService;
+import ryanddawkins.com.donutclub.data.services.FakeCurrentEventDateService;
 
 /**
  * Created by ryan on 3/3/16.
  */
-public class CurrentEventController implements RsvpListCallback {
+public class CurrentEventController implements GetUserCallback {
 
     private CurrentEventView currentEventView;
 
@@ -24,7 +25,9 @@ public class CurrentEventController implements RsvpListCallback {
     public void loadRsvpList() {
 
         // Build service to get this date object.
-        Date date = new Date();
+        CurrentEventDateService currentEventDateService = new FakeCurrentEventDateService();
+
+        Date date = currentEventDateService.getCurrentEventDate();
 
         this.rsvpListAccess.getRsvpList(this, date);
     }
@@ -37,7 +40,7 @@ public class CurrentEventController implements RsvpListCallback {
     }
 
     @Override
-    public void onGetList(List<User> rsvpList) {
+    public void onUserRetrieved(User user) {
 
     }
 }

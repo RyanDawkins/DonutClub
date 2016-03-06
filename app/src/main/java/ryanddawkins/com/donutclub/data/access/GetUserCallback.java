@@ -8,7 +8,7 @@ import ryanddawkins.com.donutclub.data.pojo.User;
 public interface GetUserCallback {
 
     /**
-     * 
+     * This method will be called to send the user back
      * @param user
      */
     void onUserRetrieved(User user);

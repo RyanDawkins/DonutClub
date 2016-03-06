@@ -7,6 +7,6 @@ import java.util.Date;
  */
 public interface RsvpListAccess {
 
-    DataListenerAdapter getRsvpList(RsvpListCallback rsvpListCallback, Date eventDate);
+    DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, Date eventDate);
 
 }
