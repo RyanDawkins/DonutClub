@@ -8,7 +8,6 @@ import java.util.Date;
 public class Rsvp {
 
     private Date date;
-    private String location;
     private String username;
 
     public Date getDate() {
@@ -17,14 +16,6 @@ public class Rsvp {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getUsername() {

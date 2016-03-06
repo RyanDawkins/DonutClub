@@ -9,6 +9,10 @@ public class FirebaseUtil {
 
     private static Firebase firebaseBaseRef;
 
+    /**
+     * This method lazily creates the firebase base reference.
+     * @return
+     */
     public static Firebase getFirebaseBaseRef() {
 
         if(firebaseBaseRef == null) {

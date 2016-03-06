@@ -14,6 +14,12 @@ import ryanddawkins.com.donutclub.data.pojo.User;
  */
 public class FirebaseUserAccess implements UserAccess {
 
+    /**
+     * This method takes a username and looks up the user in firebase and then sends it back through
+     * the callback. It will not attach and listen for new changes to the user object.
+     * @param getUserCallback
+     * @param username
+     */
     @Override
     public void getUser(final GetUserCallback getUserCallback, String username) {
 
@@ -29,6 +35,5 @@ public class FirebaseUserAccess implements UserAccess {
 
             }
         });
-
     }
 }

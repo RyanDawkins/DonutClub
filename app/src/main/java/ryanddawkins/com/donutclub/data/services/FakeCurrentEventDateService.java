@@ -7,6 +7,10 @@ import java.util.Date;
  */
 public class FakeCurrentEventDateService implements CurrentEventDateService {
 
+    /**
+     * Returns a statically set date object
+     * @return
+     */
     @Override
     public Date getCurrentEventDate() {
 

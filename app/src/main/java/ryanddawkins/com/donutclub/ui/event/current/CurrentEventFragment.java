@@ -20,9 +20,11 @@ import butterknife.OnClick;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseFragment;
 import ryanddawkins.com.donutclub.base.ItemCallback;
-import ryanddawkins.com.donutclub.data.access.RsvpListAccess;
-import ryanddawkins.com.donutclub.data.access.firebase.FirebaseRsvpListAccess;
+import ryanddawkins.com.donutclub.data.access.RsvpAccess;
+import ryanddawkins.com.donutclub.data.access.firebase.FirebaseRsvpAccess;
 import ryanddawkins.com.donutclub.data.pojo.User;
+import ryanddawkins.com.donutclub.data.services.IRsvpService;
+import ryanddawkins.com.donutclub.data.services.RsvpService;
 
 /**
  * Created by ryan on 3/3/16.
@@ -36,8 +38,9 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         CurrentEventFragment fragment = new CurrentEventFragment();
         fragment.setArguments(args);
 
-        RsvpListAccess rsvpListAccess = new FirebaseRsvpListAccess();
-        fragment.setController(new CurrentEventController(fragment, rsvpListAccess));
+        RsvpAccess rsvpAccess = new FirebaseRsvpAccess();
+        IRsvpService rsvpService = new RsvpService(rsvpAccess);
+        fragment.setController(new CurrentEventController(fragment, rsvpService));
 
         return fragment;
     }

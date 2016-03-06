@@ -5,6 +5,9 @@ package ryanddawkins.com.donutclub.data.access;
  */
 public interface DataListenerAdapter {
 
+    /**
+     * This method is to detatch the listener to prevent memory leaks.
+     */
     void stopListening();
 
 }
