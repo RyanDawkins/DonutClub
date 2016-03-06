@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,19 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
+    private View parentView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(getLayout(), container);
+        this.parentView = inflater.inflate(this.getLayout(), container, false);
 
-        ButterKnife.bind(this, view);
+        if(this.parentView != null) {
+            ButterKnife.bind(this, this.parentView);
+        }
 
-        return view;
+        return this.parentView;
     }
 
     @Override
@@ -34,5 +39,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @LayoutRes public abstract int getLayout();
+
+    public void showSnackbar(String text) {
+        Snackbar.make(this.parentView, text, Snackbar.LENGTH_SHORT).show();
+    }
 
 }

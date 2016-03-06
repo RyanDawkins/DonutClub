@@ -1,8 +1,6 @@
 package ryanddawkins.com.donutclub.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,8 +10,10 @@ import com.twitter.sdk.android.core.TwitterCore;
 
 import io.fabric.sdk.android.Fabric;
 import ryanddawkins.com.donutclub.R;
+import ryanddawkins.com.donutclub.base.BaseActivity;
+import ryanddawkins.com.donutclub.ui.event.current.CurrentEventFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "JrAFdVUT3zbAhn0Cxh47pkaRz";
@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new TwitterCore(authConfig), new Digits());
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        CurrentEventFragment currentEventFragment = CurrentEventFragment.newInstance();
+        this.addFragmentToContainer(currentEventFragment, null);
     }
 
     @Override
