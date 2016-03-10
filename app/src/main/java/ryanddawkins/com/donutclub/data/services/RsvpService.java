@@ -4,41 +4,34 @@ import java.util.Date;
 
 import ryanddawkins.com.donutclub.data.access.DataListenerAdapter;
 import ryanddawkins.com.donutclub.data.access.GetUserCallback;
-import ryanddawkins.com.donutclub.data.access.RsvpAccess;
-import ryanddawkins.com.donutclub.data.formatters.EventDateFormatter;
-import ryanddawkins.com.donutclub.data.pojo.Rsvp;
 import ryanddawkins.com.donutclub.data.pojo.User;
 
 /**
  * Created by ryan on 3/6/16.
  */
-public class RsvpService implements IRsvpService {
+public interface RsvpService {
 
-    private RsvpAccess rsvpAccess;
+    /**
+     * This method will make a call to get the list of users that are available and stream them
+     * through the callback.
+     * @param getUserCallback
+     * @param eventDate
+     * @return
+     */
+    DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, Date eventDate);
 
-    public RsvpService(RsvpAccess rsvpAccess) {
-        this.rsvpAccess = rsvpAccess;
-    }
+    /**
+     * This method will rsvp the user to an event date string.
+     * @param user
+     * @param eventDateString
+     */
+    void rsvpUser(User user, String eventDateString);
 
-    public DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, Date eventDate) {
-        return this.rsvpAccess.getRsvpList(getUserCallback, eventDate);
-    }
-
-    public void rsvpUser(User user, String eventDateString) {
-
-        Rsvp rsvp = new Rsvp();
-        rsvp.setDate(new Date(eventDateString));
-        rsvp.setUsername(user.getUsername());
-
-        this.rsvpAccess.rsvpUser(rsvp, eventDateString);
-    }
-
-    public void rsvpUser(User user, Date date) {
-
-        EventDateFormatter eventDateFormatter = new EventDateFormatter(date);
-
-        this.rsvpUser(user, eventDateFormatter.formatMonthDayYear());
-
-    }
+    /**
+     * This will format the date string into the proper format and send it to rsvpUser(User, String)
+     * @param user
+     * @param date
+     */
+    void rsvpUser(User user, Date date);
 
 }

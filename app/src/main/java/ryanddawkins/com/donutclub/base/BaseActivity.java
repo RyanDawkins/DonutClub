@@ -3,6 +3,7 @@ package ryanddawkins.com.donutclub.base;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +13,13 @@ import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ryanddawkins.com.donutclub.R;
+import ryanddawkins.com.donutclub.data.services.FakeAuthService;
+import ryanddawkins.com.donutclub.ui.login.LoginActivity;
 
 /**
  * Created by ryan on 3/3/16.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements BaseActivityView {
 
     @Nullable
     @Bind(R.id.container)
@@ -27,12 +30,20 @@ public class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
 
     protected FragmentManager fragmentManager = null;
-
+    private BaseActivityController baseActivityController;
     protected boolean mIsBackNav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FakeAuthService fakeAuthService = new FakeAuthService();
+        this.baseActivityController = new BaseActivityController(this, fakeAuthService);
+
+        // If we are not a login screen then check the auth.
+        if(!this.isLoginScreen()) {
+            this.baseActivityController.checkAuth();
+        }
 
         this.setContentView(this.getLayoutResource());
 
@@ -48,6 +59,9 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method will unbind butterknife to prevent memory leaks.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -68,17 +82,39 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method that should be overrode for a layout.
+     * @return
+     */
     protected int getLayoutResource() {
         return R.layout.activity_main;
     }
 
+    /**
+     * Adds the fragment to the container layout.
+     * @param fragment
+     * @param tag
+     */
     protected void addFragmentToContainer(Fragment fragment, String tag) {
-
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment, tag).commit();
-
     }
 
+    /**
+     * Override this method to stop the login from redirecting if not signed in.
+     * @return
+     */
+    protected boolean isLoginScreen() {
+        return false;
+    }
 
-
+    /**
+     * Navigates to the login screen.
+     */
+    @Override
+    public void navigateToLoginScreen() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        this.startActivity(intent);
+        this.finish();
+    }
 }

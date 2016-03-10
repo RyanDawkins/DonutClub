@@ -28,6 +28,8 @@ public class MainActivity extends BaseActivity {
 
         CurrentEventFragment currentEventFragment = CurrentEventFragment.newInstance();
         this.addFragmentToContainer(currentEventFragment, null);
+
+
     }
 
     @Override

@@ -2,8 +2,6 @@ package ryanddawkins.com.donutclub.data.access;
 
 import java.util.Date;
 
-import ryanddawkins.com.donutclub.data.pojo.Rsvp;
-
 /**
  * Created by ryan on 3/4/16.
  */
@@ -20,9 +18,9 @@ public interface RsvpAccess {
 
     /**
      * This method will rsvp a user given a date string.
-     * @param rsvp
+     * @param user
      * @param eventDateString
      */
-    void rsvpUser(Rsvp rsvp, String eventDateString);
+    void rsvpUser(String user, String eventDateString);
 
 }

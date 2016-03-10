@@ -1,6 +1,8 @@
 package ryanddawkins.com.donutclub.data.services;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by ryan on 3/6/16.
@@ -14,8 +16,7 @@ public class FakeCurrentEventDateService implements CurrentEventDateService {
     @Override
     public Date getCurrentEventDate() {
 
-        Date date = new Date(2016, 1, 2);
-
-        return date;
+        Calendar calendar = new GregorianCalendar(2016, 0, 2);
+        return calendar.getTime();
     }
 }

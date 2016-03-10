@@ -39,4 +39,9 @@ public interface CurrentEventView {
      */
     void setRsvpList(List<User> rsvpList);
 
+    /**
+     * This method navigates you to a profile passing the users username.
+     * @param username
+     */
+    void navigateToProfile(String username);
 }

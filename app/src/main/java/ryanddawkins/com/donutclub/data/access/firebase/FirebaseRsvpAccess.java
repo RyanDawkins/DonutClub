@@ -1,5 +1,7 @@
 package ryanddawkins.com.donutclub.data.access.firebase;
 
+import android.util.Log;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -33,20 +35,26 @@ public class FirebaseRsvpAccess implements RsvpAccess {
         EventDateFormatter eventDateFormatter = new EventDateFormatter(eventDate);
         Firebase ref = baseRef.child("rsvps/" + eventDateFormatter.formatMonthDayYear());
 
+        Log.d("eventDate", eventDateFormatter.formatMonthDayYear());
+
         ValueEventListener valueEventListener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    Rsvp rsvp = childSnapshot.getValue(Rsvp.class);
+
+                    String username = childSnapshot.getValue(String.class);
+                    Log.d("eachChild", username);
 
                     UserAccess userAccess = new FirebaseUserAccess();
-                    userAccess.getUser(getUserCallback, rsvp.getUsername());
+                    userAccess.getUser(getUserCallback, username);
                 }
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
+                Log.e("firebase error", firebaseError.toString());
             }
         });
 

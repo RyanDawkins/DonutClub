@@ -5,8 +5,8 @@ package ryanddawkins.com.donutclub.data.pojo;
  */
 public class Club {
 
-    private int clubId;
-    private String name;
+    int clubId;
+    String name;
 
     public int getClubId() {
         return clubId;

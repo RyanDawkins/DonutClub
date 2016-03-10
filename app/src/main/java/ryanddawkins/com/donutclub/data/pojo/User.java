@@ -5,11 +5,11 @@ package ryanddawkins.com.donutclub.data.pojo;
  */
 public class User {
 
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
-    private String username;
+    String firstName;
+    String lastName;
+    String phoneNumber;
+    String email;
+    String username;
 
     public String getFirstName() {
         return firstName;

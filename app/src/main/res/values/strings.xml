@@ -7,4 +7,8 @@
     <string name="deadline_to_rsvp">Deadline to RSVP</string>
     <string name="zero">0</string>
     <string name="rsvp_button_text">I\'m going</string>
+    <string name="phone_number">Phone</string>
+    <string name="dummy_number">(999) 999-9999</string>
+    <string name="email">Email</string>
+    <string name="dummy_email">john.doe@gmail.com</string>
 </resources>

@@ -1,12 +1,14 @@
 package ryanddawkins.com.donutclub.ui.event.current;
 
+import android.util.Log;
+
 import java.util.Date;
 
 import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.pojo.User;
+import ryanddawkins.com.donutclub.data.services.AuthService;
 import ryanddawkins.com.donutclub.data.services.CurrentEventDateService;
-import ryanddawkins.com.donutclub.data.services.FakeCurrentEventDateService;
-import ryanddawkins.com.donutclub.data.services.IRsvpService;
+import ryanddawkins.com.donutclub.data.services.RsvpService;
 
 /**
  * Created by ryan on 3/3/16.
@@ -14,7 +16,8 @@ import ryanddawkins.com.donutclub.data.services.IRsvpService;
 public class CurrentEventController implements GetUserCallback {
 
     private CurrentEventView currentEventView;
-    private IRsvpService rsvpService;
+    private RsvpService rsvpService;
+    private AuthService authService;
     private CurrentEventDateService currentEventDateService;
 
     /**
@@ -23,19 +26,18 @@ public class CurrentEventController implements GetUserCallback {
      * @param currentEventView
      * @param rsvpService
      */
-    public CurrentEventController(CurrentEventView currentEventView, IRsvpService rsvpService) {
+    public CurrentEventController(CurrentEventView currentEventView, RsvpService rsvpService, AuthService authService, CurrentEventDateService currentEventDateService) {
         this.currentEventView = currentEventView;
         this.rsvpService = rsvpService;
-        this.currentEventDateService = new FakeCurrentEventDateService();
+        this.currentEventDateService = currentEventDateService;
+        this.authService = authService;
     }
 
     /**
      * This method will lookup the current event date and send a callback back to the controller
      */
     public void loadRsvpList() {
-
         Date date = this.currentEventDateService.getCurrentEventDate();
-
         this.rsvpService.getRsvpList(this, date);
     }
 
@@ -52,7 +54,7 @@ public class CurrentEventController implements GetUserCallback {
      * @param user
      */
     public void onUserSelected(User user) {
-
+        this.currentEventView.navigateToProfile(user.getUsername());
     }
 
     /**
@@ -62,6 +64,6 @@ public class CurrentEventController implements GetUserCallback {
      */
     @Override
     public void onUserRetrieved(User user) {
-
+        Log.d("user", user.getFirstName());
     }
 }

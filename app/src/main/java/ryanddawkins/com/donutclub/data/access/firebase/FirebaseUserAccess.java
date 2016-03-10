@@ -32,7 +32,6 @@ public class FirebaseUserAccess implements UserAccess {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }

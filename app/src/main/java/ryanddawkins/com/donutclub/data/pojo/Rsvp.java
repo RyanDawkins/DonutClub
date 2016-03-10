@@ -1,20 +1,25 @@
 package ryanddawkins.com.donutclub.data.pojo;
 
-import java.util.Date;
-
 /**
  * Created by ryan on 3/6/16.
  */
 public class Rsvp {
 
-    private Date date;
-    private String username;
+    String date;
+    String username;
 
-    public Date getDate() {
+    public Rsvp(){}
+
+    public Rsvp(String date, String username) {
+        this.date = date;
+        this.username = username;
+    }
+
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -7,10 +7,10 @@ import java.util.Date;
  */
 public class Event {
 
-    private int eventId;
-    private Date date;
-    private String location;
-    private User host;
+    int eventId;
+    Date date;
+    String location;
+    User host;
 
     public int getEventId() {
         return eventId;

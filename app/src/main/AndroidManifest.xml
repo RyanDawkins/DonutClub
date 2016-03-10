@@ -19,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:label="Profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5821b308d11f4ace82358e89355bbb98576f5891" />

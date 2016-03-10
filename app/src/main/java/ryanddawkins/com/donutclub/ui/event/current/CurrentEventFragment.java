@@ -1,5 +1,6 @@
 package ryanddawkins.com.donutclub.ui.event.current;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -23,14 +24,23 @@ import ryanddawkins.com.donutclub.base.ItemCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpAccess;
 import ryanddawkins.com.donutclub.data.access.firebase.FirebaseRsvpAccess;
 import ryanddawkins.com.donutclub.data.pojo.User;
-import ryanddawkins.com.donutclub.data.services.IRsvpService;
+import ryanddawkins.com.donutclub.data.services.AuthService;
+import ryanddawkins.com.donutclub.data.services.CurrentEventDateService;
+import ryanddawkins.com.donutclub.data.services.FakeAuthService;
+import ryanddawkins.com.donutclub.data.services.FakeCurrentEventDateService;
+import ryanddawkins.com.donutclub.data.services.RsvpAccessService;
 import ryanddawkins.com.donutclub.data.services.RsvpService;
+import ryanddawkins.com.donutclub.ui.profile.ProfileActivity;
 
 /**
  * Created by ryan on 3/3/16.
  */
 public class CurrentEventFragment extends BaseFragment implements CurrentEventView, ItemCallback {
 
+    /**
+     * Returns a static instance. This sets up the fragment.
+     * @return
+     */
     public static CurrentEventFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -39,8 +49,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         fragment.setArguments(args);
 
         RsvpAccess rsvpAccess = new FirebaseRsvpAccess();
-        IRsvpService rsvpService = new RsvpService(rsvpAccess);
-        fragment.setController(new CurrentEventController(fragment, rsvpService));
+        RsvpService rsvpService = new RsvpAccessService(rsvpAccess);
+        AuthService authService = new FakeAuthService();
+        CurrentEventDateService currentEventDateService = new FakeCurrentEventDateService();
+        fragment.setController(new CurrentEventController(fragment, rsvpService, authService, currentEventDateService));
 
         return fragment;
     }
@@ -102,13 +114,22 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
             this.recyclerView.setAdapter(this.currentEventAdapter);
         }
 
-        this.currentEventController.loadRsvpList();
+        if(this.currentEventController != null) {
+            this.currentEventController.loadRsvpList();
+        }
     }
 
+    /**
+     * This method is how we inject the controller into the fragment
+     * @param currentEventController
+     */
     public void setController(CurrentEventController currentEventController) {
         this.currentEventController = currentEventController;
     }
 
+    /**
+     * Method to handle the rsvp for the current user.
+     */
     @Nullable
     @OnClick(R.id.rsvpButton)
     public void rsvpClick() {
@@ -121,6 +142,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         }
     }
 
+    /**
+     * Method to set the where location
+     * @param whereLocation
+     */
     @Override
     public void setWhereLocation(String whereLocation) {
         if(this.whereLocationTextView != null) {
@@ -128,6 +153,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         }
     }
 
+    /**
+     * Loads the rsvp count into the view
+     * @param rsvpCount
+     */
     @Override
     public void setRsvpCount(String rsvpCount) {
         if(this.rsvpCountTextView != null) {
@@ -135,6 +164,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         }
     }
 
+    /**
+     * Sets the deadline that they have to rsvp
+     * @param deadlineToRsvp
+     */
     @Override
     public void setDeadlineToRsvp(String deadlineToRsvp) {
         if(this.deadlineToRsvpTextView != null) {
@@ -142,6 +175,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         }
     }
 
+    /**
+     * Sets the current people in the rsvp list.
+     * @param rsvpList
+     */
     @Override
     public void setRsvpList(List<User> rsvpList) {
         this.rsvpList = rsvpList;
@@ -149,15 +186,33 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         this.currentEventAdapter.setRsvpList(rsvpList);
     }
 
+    /**
+     * unbinds the controller from the view
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         this.currentEventController = null;
     }
 
+    /**
+     * Sends the user over to the controller to open the users profile page
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
         User user = this.rsvpList.get(position);
         this.currentEventController.onUserSelected(user);
+    }
+
+    /**
+     * Navigates to the profile and passes the username of the user selected.
+     * @param username
+     */
+    @Override
+    public void navigateToProfile(String username) {
+        Intent intent = new Intent(this.getActivity(), ProfileActivity.class);
+        intent.putExtra("username", username);
+        this.startActivity(intent);
     }
 }
