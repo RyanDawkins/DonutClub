@@ -14,7 +14,6 @@ import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpAccess;
 import ryanddawkins.com.donutclub.data.access.UserAccess;
 import ryanddawkins.com.donutclub.data.formatters.EventDateFormatter;
-import ryanddawkins.com.donutclub.data.pojo.Rsvp;
 
 /**
  * Created by ryan on 3/5/16.
@@ -41,12 +40,12 @@ public class FirebaseRsvpAccess implements RsvpAccess {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-
+                Log.d("snapshot", dataSnapshot.toString());
+                Log.d("snapshotLength", ""+dataSnapshot.getChildrenCount());
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
 
-                    String username = childSnapshot.getValue(String.class);
-                    Log.d("eachChild", username);
-
+                    // This is because it is formatted like "ryan: true"
+                    String username = childSnapshot.getKey();
                     UserAccess userAccess = new FirebaseUserAccess();
                     userAccess.getUser(getUserCallback, username);
                 }
@@ -63,12 +62,14 @@ public class FirebaseRsvpAccess implements RsvpAccess {
 
     /**
      * This method will rsvp with the given date string
-     * @param rsvp
+     * @param username
      * @param eventDateString
      */
     @Override
-    public void rsvpUser(Rsvp rsvp, String eventDateString) {
+    public void rsvpUser(String username, String eventDateString) {
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
-        baseRef.child("/rsvps/"+eventDateString).setValue(rsvp);
+        baseRef.child("/rsvps/"+eventDateString).setValue(username);
     }
+
+
 }
