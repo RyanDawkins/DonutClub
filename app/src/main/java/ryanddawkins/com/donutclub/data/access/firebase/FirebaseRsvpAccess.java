@@ -63,12 +63,11 @@ public class FirebaseRsvpAccess implements RsvpAccess {
     /**
      * This method will rsvp with the given date string
      * @param username
-     * @param eventDateString
+     * @param eventKeyString
      */
     @Override
-    public void rsvpUser(String username, String eventDateString) {
+    public void rsvpUser(String username, String eventKeyString) {
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
-        baseRef.child("/rsvps/"+eventDateString).setValue(username);
     }
 
 

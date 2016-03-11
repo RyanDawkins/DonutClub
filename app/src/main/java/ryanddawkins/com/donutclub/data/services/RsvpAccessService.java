@@ -6,7 +6,6 @@ import ryanddawkins.com.donutclub.data.access.DataListenerAdapter;
 import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpAccess;
 import ryanddawkins.com.donutclub.data.formatters.EventDateFormatter;
-import ryanddawkins.com.donutclub.data.pojo.Rsvp;
 import ryanddawkins.com.donutclub.data.pojo.User;
 
 /**

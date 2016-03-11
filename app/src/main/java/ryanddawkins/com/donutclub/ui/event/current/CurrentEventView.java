@@ -44,4 +44,10 @@ public interface CurrentEventView {
      * @param username
      */
     void navigateToProfile(String username);
+
+    /**
+     * This will return the groups key that was passed to the intent.
+     * @return
+     */
+    String getGroupFromIntent();
 }

@@ -46,7 +46,8 @@ public class CurrentEventController implements GetUserCallback {
      */
     public void handleRsvpClick() {
         Date date = this.currentEventDateService.getCurrentEventDate();
-        this.rsvpService.rsvpUser(null, date);
+        User user = this.authService.getCurrentUser();
+        this.rsvpService.rsvpUser(user, date);
     }
 
     /**

@@ -215,4 +215,14 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         intent.putExtra("username", username);
         this.startActivity(intent);
     }
+
+    @Override
+    public String getGroupFromIntent() {
+
+        // Eventually this will be the way we get the token.
+        Intent intent = this.getActivity().getIntent();
+        String groupId ="-KCYvxDqsMWhPkf8IM8J";//intent.getStringExtra("groupId");
+
+        return groupId;
+    }
 }
