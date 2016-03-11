@@ -13,7 +13,7 @@ import ryanddawkins.com.donutclub.data.services.RsvpService;
 /**
  * Created by ryan on 3/3/16.
  */
-public class CurrentEventController implements GetUserCallback {
+public class CurrentEventPresenter implements GetUserCallback {
 
     private CurrentEventView currentEventView;
     private RsvpService rsvpService;
@@ -26,7 +26,7 @@ public class CurrentEventController implements GetUserCallback {
      * @param currentEventView
      * @param rsvpService
      */
-    public CurrentEventController(CurrentEventView currentEventView, RsvpService rsvpService, AuthService authService, CurrentEventDateService currentEventDateService) {
+    public CurrentEventPresenter(CurrentEventView currentEventView, RsvpService rsvpService, AuthService authService, CurrentEventDateService currentEventDateService) {
         this.currentEventView = currentEventView;
         this.rsvpService = rsvpService;
         this.currentEventDateService = currentEventDateService;

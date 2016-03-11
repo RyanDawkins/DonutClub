@@ -52,12 +52,12 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         RsvpService rsvpService = new RsvpAccessService(rsvpAccess);
         AuthService authService = new FakeAuthService();
         CurrentEventDateService currentEventDateService = new FakeCurrentEventDateService();
-        fragment.setController(new CurrentEventController(fragment, rsvpService, authService, currentEventDateService));
+        fragment.setPresenter(new CurrentEventPresenter(fragment, rsvpService, authService, currentEventDateService));
 
         return fragment;
     }
 
-    private CurrentEventController currentEventController;
+    private CurrentEventPresenter currentEventPresenter;
     private List<User> rsvpList;
     private CurrentEventAdapter currentEventAdapter;
 
@@ -114,17 +114,17 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
             this.recyclerView.setAdapter(this.currentEventAdapter);
         }
 
-        if(this.currentEventController != null) {
-            this.currentEventController.loadRsvpList();
+        if(this.currentEventPresenter != null) {
+            this.currentEventPresenter.loadRsvpList();
         }
     }
 
     /**
      * This method is how we inject the controller into the fragment
-     * @param currentEventController
+     * @param currentEventPresenter
      */
-    public void setController(CurrentEventController currentEventController) {
-        this.currentEventController = currentEventController;
+    public void setPresenter(CurrentEventPresenter currentEventPresenter) {
+        this.currentEventPresenter = currentEventPresenter;
     }
 
     /**
@@ -133,7 +133,7 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
     @Nullable
     @OnClick(R.id.rsvpButton)
     public void rsvpClick() {
-        this.currentEventController.handleRsvpClick();
+        this.currentEventPresenter.handleRsvpClick();
     }
 
     public void setWhenDate(String whenDate) {
@@ -192,7 +192,7 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        this.currentEventController = null;
+        this.currentEventPresenter = null;
     }
 
     /**
@@ -202,7 +202,7 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
     @Override
     public void onItemClick(int position) {
         User user = this.rsvpList.get(position);
-        this.currentEventController.onUserSelected(user);
+        this.currentEventPresenter.onUserSelected(user);
     }
 
     /**
