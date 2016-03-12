@@ -22,12 +22,13 @@ import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseFragment;
 import ryanddawkins.com.donutclub.base.ItemCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpAccess;
+import ryanddawkins.com.donutclub.data.access.firebase.FirebaseEventAccess;
 import ryanddawkins.com.donutclub.data.access.firebase.FirebaseRsvpAccess;
 import ryanddawkins.com.donutclub.data.pojo.User;
 import ryanddawkins.com.donutclub.data.services.AuthService;
-import ryanddawkins.com.donutclub.data.services.CurrentEventDateService;
+import ryanddawkins.com.donutclub.data.services.EventService;
+import ryanddawkins.com.donutclub.data.services.EventServiceImplementation;
 import ryanddawkins.com.donutclub.data.services.FakeAuthService;
-import ryanddawkins.com.donutclub.data.services.FakeCurrentEventDateService;
 import ryanddawkins.com.donutclub.data.services.RsvpAccessService;
 import ryanddawkins.com.donutclub.data.services.RsvpService;
 import ryanddawkins.com.donutclub.ui.profile.ProfileActivity;
@@ -51,8 +52,8 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
         RsvpAccess rsvpAccess = new FirebaseRsvpAccess();
         RsvpService rsvpService = new RsvpAccessService(rsvpAccess);
         AuthService authService = new FakeAuthService();
-        CurrentEventDateService currentEventDateService = new FakeCurrentEventDateService();
-        fragment.setPresenter(new CurrentEventPresenter(fragment, rsvpService, authService, currentEventDateService));
+        EventService eventService = new EventServiceImplementation(new FirebaseEventAccess());
+        fragment.setPresenter(new CurrentEventPresenter(fragment, rsvpService, authService, eventService));
 
         return fragment;
     }
@@ -98,6 +99,10 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
 
             RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this.getActivity(), R.layout.event_current_header);
             recyclerViewHeader.attachTo(this.recyclerView);
+            this.currentEventAdapter = new CurrentEventAdapter(this);
+            if(this.recyclerView != null) {
+                this.recyclerView.setAdapter(this.currentEventAdapter);
+            }
 
             ButterKnife.bind(this, recyclerViewHeader);
         }
@@ -109,13 +114,8 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.currentEventAdapter = new CurrentEventAdapter(this);
-        if(this.recyclerView != null) {
-            this.recyclerView.setAdapter(this.currentEventAdapter);
-        }
-
         if(this.currentEventPresenter != null) {
-            this.currentEventPresenter.loadRsvpList();
+            this.currentEventPresenter.initialize();
         }
     }
 

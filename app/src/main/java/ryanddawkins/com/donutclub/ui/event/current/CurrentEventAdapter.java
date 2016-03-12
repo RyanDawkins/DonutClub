@@ -1,6 +1,7 @@
 package ryanddawkins.com.donutclub.ui.event.current;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,8 @@ public class CurrentEventAdapter extends RecyclerView.Adapter<CurrentEventsViewH
         User user = this.rsvpList.get(position);
 
         holder.bind(user);
+
+        Log.d("binding", user.getFirstName());
     }
 
     @Override
@@ -54,5 +57,7 @@ public class CurrentEventAdapter extends RecyclerView.Adapter<CurrentEventsViewH
 
         this.notifyDataSetChanged();
     }
+
+
 
 }

@@ -23,10 +23,6 @@ public class CurrentEventsViewHolder extends RecyclerView.ViewHolder implements 
     @Bind(R.id.user_name)
     protected TextView user_name;
 
-    @Nullable
-    @Bind(R.id.user_icon)
-    protected TextView userIcon;
-
     public CurrentEventsViewHolder(View itemView, ItemCallback itemCallback) {
         super(itemView);
 

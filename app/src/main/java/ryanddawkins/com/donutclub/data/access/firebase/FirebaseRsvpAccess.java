@@ -7,13 +7,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.Date;
-
 import ryanddawkins.com.donutclub.data.access.DataListenerAdapter;
 import ryanddawkins.com.donutclub.data.access.GetUserCallback;
 import ryanddawkins.com.donutclub.data.access.RsvpAccess;
 import ryanddawkins.com.donutclub.data.access.UserAccess;
-import ryanddawkins.com.donutclub.data.formatters.EventDateFormatter;
 
 /**
  * Created by ryan on 3/5/16.
@@ -23,19 +20,17 @@ public class FirebaseRsvpAccess implements RsvpAccess {
     /**
      * This method makes a request to the
      * @param getUserCallback
-     * @param eventDate
+     * @param eventId
      * @return
      */
     @Override
-    public DataListenerAdapter getRsvpList(final GetUserCallback getUserCallback, Date eventDate) {
+    public DataListenerAdapter getRsvpList(final GetUserCallback getUserCallback, String eventId) {
 
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
 
-        EventDateFormatter eventDateFormatter = new EventDateFormatter(eventDate);
-        Firebase ref = baseRef.child("rsvps/" + eventDateFormatter.formatMonthDayYear());
+        Firebase ref = baseRef.child("events").child(eventId).child("rsvps");
 
-        Log.d("eventDate", eventDateFormatter.formatMonthDayYear());
-
+        final UserAccess userAccess = new FirebaseUserAccess();
         ValueEventListener valueEventListener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -46,7 +41,6 @@ public class FirebaseRsvpAccess implements RsvpAccess {
 
                     // This is because it is formatted like "ryan: true"
                     String username = childSnapshot.getKey();
-                    UserAccess userAccess = new FirebaseUserAccess();
                     userAccess.getUser(getUserCallback, username);
                 }
             }

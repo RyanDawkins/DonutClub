@@ -19,8 +19,8 @@ public class RsvpAccessService implements RsvpService {
         this.rsvpAccess = rsvpAccess;
     }
 
-    public DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, Date eventDate) {
-        return this.rsvpAccess.getRsvpList(getUserCallback, eventDate);
+    public DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, String eventId) {
+        return this.rsvpAccess.getRsvpList(getUserCallback, eventId);
     }
 
     public void rsvpUser(User user, String eventDateString) {

@@ -7,4 +7,6 @@ public interface EventAccess {
 
     void getCurrentEvent(EventCallback eventCallback, String groupId);
 
+    void getEvent(EventCallback eventCallback, String eventId);
+
 }

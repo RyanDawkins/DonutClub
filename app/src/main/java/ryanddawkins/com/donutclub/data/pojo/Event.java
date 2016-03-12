@@ -1,30 +1,31 @@
 package ryanddawkins.com.donutclub.data.pojo;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by ryan on 3/3/16.
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Event {
 
-    int eventId;
-    Date date;
+    String eventId;
+    String date;
     String location;
-    User host;
+    String deadline;
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(int eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -36,11 +37,11 @@ public class Event {
         this.location = location;
     }
 
-    public User getHost() {
-        return host;
+    public String getDeadline() {
+        return deadline;
     }
 
-    public void setHost(User host) {
-        this.host = host;
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 }

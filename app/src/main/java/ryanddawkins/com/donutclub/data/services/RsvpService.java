@@ -15,10 +15,10 @@ public interface RsvpService {
      * This method will make a call to get the list of users that are available and stream them
      * through the callback.
      * @param getUserCallback
-     * @param eventDate
+     * @param eventId
      * @return
      */
-    DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, Date eventDate);
+    DataListenerAdapter getRsvpList(GetUserCallback getUserCallback, String eventId);
 
     /**
      * This method will rsvp the user to an event date string.

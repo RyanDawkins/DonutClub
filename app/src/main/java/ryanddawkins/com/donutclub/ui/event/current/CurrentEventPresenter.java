@@ -2,23 +2,27 @@ package ryanddawkins.com.donutclub.ui.event.current;
 
 import android.util.Log;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import ryanddawkins.com.donutclub.data.access.EventCallback;
 import ryanddawkins.com.donutclub.data.access.GetUserCallback;
+import ryanddawkins.com.donutclub.data.pojo.Event;
 import ryanddawkins.com.donutclub.data.pojo.User;
 import ryanddawkins.com.donutclub.data.services.AuthService;
-import ryanddawkins.com.donutclub.data.services.CurrentEventDateService;
+import ryanddawkins.com.donutclub.data.services.EventService;
 import ryanddawkins.com.donutclub.data.services.RsvpService;
 
 /**
  * Created by ryan on 3/3/16.
  */
-public class CurrentEventPresenter implements GetUserCallback {
+public class CurrentEventPresenter implements GetUserCallback, EventCallback {
 
     private CurrentEventView currentEventView;
     private RsvpService rsvpService;
     private AuthService authService;
-    private CurrentEventDateService currentEventDateService;
+    private EventService eventService;
+    private List<User> rsvpList;
 
     /**
      * Accepts the service that way that we can test just the controller without testing the service
@@ -26,28 +30,24 @@ public class CurrentEventPresenter implements GetUserCallback {
      * @param currentEventView
      * @param rsvpService
      */
-    public CurrentEventPresenter(CurrentEventView currentEventView, RsvpService rsvpService, AuthService authService, CurrentEventDateService currentEventDateService) {
+    public CurrentEventPresenter (CurrentEventView currentEventView, RsvpService rsvpService, AuthService authService, EventService eventService) {
         this.currentEventView = currentEventView;
         this.rsvpService = rsvpService;
-        this.currentEventDateService = currentEventDateService;
+        this.eventService = eventService;
         this.authService = authService;
+
+        this.rsvpList = new ArrayList<User>();
     }
 
-    /**
-     * This method will lookup the current event date and send a callback back to the controller
-     */
-    public void loadRsvpList() {
-        Date date = this.currentEventDateService.getCurrentEventDate();
-        this.rsvpService.getRsvpList(this, date);
+    public void initialize() {
+        String groupId = this.currentEventView.getGroupFromIntent();
+        this.eventService.getCurrentEvent(this, groupId);
     }
 
     /**
      * This method is to handle the RSVP click and to create a new rsvp for a date.
      */
     public void handleRsvpClick() {
-        Date date = this.currentEventDateService.getCurrentEventDate();
-        User user = this.authService.getCurrentUser();
-        this.rsvpService.rsvpUser(user, date);
     }
 
     /**
@@ -66,5 +66,16 @@ public class CurrentEventPresenter implements GetUserCallback {
     @Override
     public void onUserRetrieved(User user) {
         Log.d("user", user.getFirstName());
+        this.rsvpList.add(user);
+        this.currentEventView.setRsvpList(this.rsvpList);
+    }
+
+    @Override
+    public void onRetrievedEvent(Event event) {
+        this.currentEventView.setWhereLocation(event.getLocation());
+        this.currentEventView.setWhenDate(event.getDate());
+        this.currentEventView.setDeadlineToRsvp(event.getDeadline());
+
+        this.rsvpService.getRsvpList(this, event.getEventId());
     }
 }
