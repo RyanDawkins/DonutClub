@@ -21,13 +21,17 @@ public class FirebaseUserAccess implements UserAccess {
      * @param userId
      */
     @Override
-    public void getUser(final GetUserCallback getUserCallback, String userId) {
+    public void getUser(final GetUserCallback getUserCallback, final String userId) {
 
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
         baseRef.child("/users/"+userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getUserCallback.onUserRetrieved(dataSnapshot.getValue(User.class));
+
+                User user = dataSnapshot.getValue(User.class);
+                user.setId(userId);
+
+                getUserCallback.onUserRetrieved(user);
             }
 
             @Override

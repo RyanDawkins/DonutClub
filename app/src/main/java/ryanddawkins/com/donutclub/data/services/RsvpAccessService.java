@@ -24,7 +24,7 @@ public class RsvpAccessService implements RsvpService {
     }
 
     public void rsvpUser(User user, String eventDateString) {
-        this.rsvpAccess.rsvpUser(user.getUsername(), eventDateString);
+        this.rsvpAccess.rsvpUser(user.getId(), eventDateString);
     }
 
     public void rsvpUser(User user, Date date) {

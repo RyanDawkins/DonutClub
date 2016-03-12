@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import butterknife.Bind;
@@ -80,6 +81,14 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityView 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home && mIsBackNav) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
