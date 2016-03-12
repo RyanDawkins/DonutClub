@@ -8,8 +8,8 @@ public interface UserAccess {
     /**
      * This allows you to get a single user and have a callback to store it after.
      * @param getUserCallback
-     * @param username
+     * @param userId
      */
-    void getUser(GetUserCallback getUserCallback, String username);
+    void getUser(GetUserCallback getUserCallback, String userId);
 
 }

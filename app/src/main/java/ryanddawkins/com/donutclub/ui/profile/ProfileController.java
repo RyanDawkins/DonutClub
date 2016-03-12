@@ -20,10 +20,10 @@ public class ProfileController implements GetUserCallback {
 
     /**
      * Gets the user from the service and passes along the callback
-     * @param username
+     * @param userId
      */
-    public void getUser(String username) {
-        this.userService.getUser(this, username);
+    public void getUser(String userId) {
+        this.userService.getUser(this, userId);
     }
 
     /**

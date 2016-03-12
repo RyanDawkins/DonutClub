@@ -42,7 +42,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
         // Gets the username from the intent and then looks up the user.
         Intent intent = getIntent();
-        this.profileController.getUser(intent.getStringExtra("username"));
+        this.profileController.getUser(intent.getStringExtra("userId"));
     }
 
     /**

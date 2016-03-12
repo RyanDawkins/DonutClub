@@ -1,15 +1,18 @@
 package ryanddawkins.com.donutclub.data.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by ryan on 3/3/16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     String firstName;
     String lastName;
     String phoneNumber;
     String email;
-    String username;
+    String id;
 
     public String getFirstName() {
         return firstName;
@@ -43,11 +46,11 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 }

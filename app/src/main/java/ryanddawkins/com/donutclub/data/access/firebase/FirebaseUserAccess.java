@@ -18,13 +18,13 @@ public class FirebaseUserAccess implements UserAccess {
      * This method takes a username and looks up the user in firebase and then sends it back through
      * the callback. It will not attach and listen for new changes to the user object.
      * @param getUserCallback
-     * @param username
+     * @param userId
      */
     @Override
-    public void getUser(final GetUserCallback getUserCallback, String username) {
+    public void getUser(final GetUserCallback getUserCallback, String userId) {
 
         Firebase baseRef = FirebaseUtil.getFirebaseBaseRef();
-        baseRef.child("/users/"+username).addListenerForSingleValueEvent(new ValueEventListener() {
+        baseRef.child("/users/"+userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getUserCallback.onUserRetrieved(dataSnapshot.getValue(User.class));

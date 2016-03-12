@@ -207,12 +207,12 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
 
     /**
      * Navigates to the profile and passes the username of the user selected.
-     * @param username
+     * @param userId
      */
     @Override
-    public void navigateToProfile(String username) {
+    public void navigateToProfile(String userId) {
         Intent intent = new Intent(this.getActivity(), ProfileActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("userId", userId);
         this.startActivity(intent);
     }
 

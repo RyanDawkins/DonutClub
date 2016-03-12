@@ -16,7 +16,7 @@ public class FakeAuthService implements AuthService {
         user.setLastName("Dawkins");
         user.setEmail("ryan.d.dawkins@gmail.com");
         user.setPhoneNumber("(405) 824-9223");
-        user.setUsername("ryan");
+        user.setId("-KCYwRdC1kj3Hq54S6wV");
 
         this.setCurrentUser(user);
     }

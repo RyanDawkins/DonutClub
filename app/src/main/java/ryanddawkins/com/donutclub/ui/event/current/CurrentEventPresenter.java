@@ -48,6 +48,9 @@ public class CurrentEventPresenter implements GetUserCallback, EventCallback {
      * This method is to handle the RSVP click and to create a new rsvp for a date.
      */
     public void handleRsvpClick() {
+
+
+
     }
 
     /**
@@ -55,7 +58,7 @@ public class CurrentEventPresenter implements GetUserCallback, EventCallback {
      * @param user
      */
     public void onUserSelected(User user) {
-        this.currentEventView.navigateToProfile(user.getUsername());
+        this.currentEventView.navigateToProfile(user.getId());
     }
 
     /**

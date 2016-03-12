@@ -10,8 +10,8 @@ public interface UserService {
     /**
      * This method asks for a single user and will send it back through a callback
      * @param getUserCallback
-     * @param username
+     * @param userId
      */
-    void getUser(GetUserCallback getUserCallback, String username);
+    void getUser(GetUserCallback getUserCallback, String userId);
 
 }
