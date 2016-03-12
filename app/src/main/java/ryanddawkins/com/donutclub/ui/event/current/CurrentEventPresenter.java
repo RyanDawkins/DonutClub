@@ -68,6 +68,7 @@ public class CurrentEventPresenter implements GetUserCallback, EventCallback {
         Log.d("user", user.getFirstName());
         this.rsvpList.add(user);
         this.currentEventView.setRsvpList(this.rsvpList);
+        this.currentEventView.setRsvpCount(""+this.rsvpList.size());
     }
 
     @Override
