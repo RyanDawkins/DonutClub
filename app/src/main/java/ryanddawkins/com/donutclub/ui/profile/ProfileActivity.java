@@ -1,11 +1,13 @@
 package ryanddawkins.com.donutclub.ui.profile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
 import ryanddawkins.com.donutclub.data.access.firebase.FirebaseUserAccess;
@@ -29,7 +31,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     @Bind(R.id.user_phone)
     protected TextView phoneEditText;
 
-    private ProfileController profileController;
+    private ProfilePresenter profilePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,11 +40,11 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
         // Eventually this will be handled with dependency injection.
         UserService userService = new UserAccessService(new FirebaseUserAccess());
-        this.profileController = new ProfileController(this, userService);
+        this.profilePresenter = new ProfilePresenter(this, userService);
 
         // Gets the username from the intent and then looks up the user.
         Intent intent = getIntent();
-        this.profileController.getUser(intent.getStringExtra("userId"));
+        this.profilePresenter.getUser(intent.getStringExtra("userId"));
     }
 
     /**
@@ -85,5 +87,18 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         if(this.emailEditText != null) {
             this.emailEditText.setText(email);
         }
+    }
+
+    @Nullable
+    @OnClick(R.id.callBtn)
+    public void onCallClicked() {
+        this.profilePresenter.onCallBtnClicked();
+    }
+
+    @Override
+    public void callNumber(String number) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+number));
+        startActivity(intent);
     }
 }

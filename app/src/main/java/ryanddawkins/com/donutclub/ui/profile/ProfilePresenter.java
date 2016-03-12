@@ -7,13 +7,13 @@ import ryanddawkins.com.donutclub.data.services.UserService;
 /**
  * Created by ryan on 3/6/16.
  */
-public class ProfileController implements GetUserCallback {
+public class ProfilePresenter implements GetUserCallback {
 
     private UserService userService;
     private ProfileView profileView;
     private User user;
 
-    public ProfileController(ProfileView profileView, UserService userService) {
+    public ProfilePresenter(ProfileView profileView, UserService userService) {
         this.userService = userService;
         this.profileView = profileView;
     }
@@ -37,4 +37,12 @@ public class ProfileController implements GetUserCallback {
         this.profileView.setEmail(user.getEmail());
         this.profileView.setPhone(user.getPhoneNumber());
     }
+
+    public void onCallBtnClicked() {
+        // Removes all non numberic numbers
+        String number = this.user.getPhoneNumber().replaceAll("[^\\d.]", "");
+
+        this.profileView.callNumber(number);
+    }
+
 }

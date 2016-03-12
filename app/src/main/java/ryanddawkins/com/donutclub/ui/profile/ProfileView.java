@@ -23,4 +23,10 @@ public interface ProfileView {
      */
     void setEmail(String email);
 
+    /**
+     * Calls the number from a user.
+     * @param number
+     */
+    void callNumber(String number);
+
 }

@@ -39,12 +39,15 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/callBtn"
         android:src="@drawable/ic_phone"
         app:backgroundTint="@color/colorPrimaryDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/header"
         app:layout_anchorGravity="bottom|right|end"
+        android:clickable="true"
+        android:layout_marginRight="8dp"
         />
 
     <android.support.v4.widget.NestedScrollView
