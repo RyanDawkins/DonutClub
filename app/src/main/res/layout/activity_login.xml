@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="fill_parent"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/plus_sign_in_btn"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/phone_number"
-        app:met_primaryColor="@color/colorAccent"
-        app:met_floatingLabel="highlight"
-        />
+        android:layout_centerVertical="true" />
 
-</LinearLayout>
+    <com.facebook.login.widget.LoginButton
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@id/plus_sign_in_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

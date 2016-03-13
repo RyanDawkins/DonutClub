@@ -2,6 +2,7 @@ package ryanddawkins.com.donutclub;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
 import com.firebase.client.Firebase;
 
 /**
@@ -15,5 +16,6 @@ public class DonutClub extends Application {
 
         Firebase.setAndroidContext(this);
         Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        FacebookSdk.sdkInitialize(this);
     }
 }
