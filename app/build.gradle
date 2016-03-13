@@ -20,7 +20,7 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "ryanddawkins.com.donutclub"
@@ -56,7 +56,7 @@ dependencies {
     compile 'com.firebase:firebase-client-android:2.5.2+'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.jakewharton.timber:timber:4.1.1'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
 
     compile 'com.google.dagger:dagger:2.0.1'
