@@ -19,4 +19,10 @@ public interface AuthService {
      */
     User getCurrentUser();
 
+    /**
+     * Method to store the current user in memory.
+     * @param user
+     */
+    void setCurrentUser(User user);
+
 }

@@ -221,7 +221,7 @@ public class CurrentEventFragment extends BaseFragment implements CurrentEventVi
 
         // Eventually this will be the way we get the token.
         Intent intent = this.getActivity().getIntent();
-        String groupId ="-KCYvxDqsMWhPkf8IM8J";//intent.getStringExtra("groupId");
+        String groupId ="-KCYvxDqsMWhPkf8IM8J";//intent.getStringExtra(CurrentEventActivity.GROUP_ID);
 
         return groupId;
     }

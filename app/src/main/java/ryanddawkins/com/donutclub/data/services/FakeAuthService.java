@@ -27,7 +27,7 @@ public class FakeAuthService implements AuthService {
      */
     @Override
     public boolean isSignedin() {
-        return true;
+        return false;
     }
 
     /**
@@ -39,6 +39,7 @@ public class FakeAuthService implements AuthService {
         return this.currentUser;
     }
 
+    @Override
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }

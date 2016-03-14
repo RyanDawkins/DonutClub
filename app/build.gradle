@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:2.+'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -19,9 +19,16 @@ repositories {
 
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'miller06'
+            storeFile file('/Users/ryan/.android/debug.keystore')
+            storePassword 'miller06'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "ryanddawkins.com.donutclub"
         minSdkVersion 15
@@ -35,7 +42,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
@@ -44,7 +50,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
@@ -56,8 +62,8 @@ dependencies {
     compile 'com.firebase:firebase-client-android:2.5.2+'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.jakewharton.timber:timber:4.1.1'
+    compile 'com.google.android.gms:play-services-plus:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-
     compile 'com.google.dagger:dagger:2.0.1'
 }

@@ -29,7 +29,7 @@
             android:id="@+id/user_name"
             android:background="@color/colorAccent"
             android:textSize="25sp"
-            android:textColor="@color/tw__solid_white"
+            android:textColor="@color/white"
             android:gravity="center"
             android:paddingBottom="8dp"
             android:text="Name"

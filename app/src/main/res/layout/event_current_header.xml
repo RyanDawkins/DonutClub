@@ -95,10 +95,11 @@
 
     </LinearLayout>
 
+
     <Button
         android:id="@+id/rsvpButton"
         android:layout_marginTop="8dp"
-        android:textColor="@color/tw__solid_white"
+        android:textColor="@color/white"
         android:background="@color/colorAccent"
         android:text="@string/rsvp_button_text"
         android:layout_width="match_parent"

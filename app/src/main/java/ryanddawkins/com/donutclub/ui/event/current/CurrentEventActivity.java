@@ -1,35 +1,26 @@
-package ryanddawkins.com.donutclub.ui;
+package ryanddawkins.com.donutclub.ui.event.current;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.digits.sdk.android.Digits;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-
-import io.fabric.sdk.android.Fabric;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
-import ryanddawkins.com.donutclub.ui.event.current.CurrentEventFragment;
 
-public class MainActivity extends BaseActivity {
+public class CurrentEventActivity extends BaseActivity {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "JrAFdVUT3zbAhn0Cxh47pkaRz";
     private static final String TWITTER_SECRET = "BFt0xpvLUfG5B3z0bMATA70eV9riyMk4e8X4TwisODGH45rJki";
 
+    public static final String GROUP_ID = "groupId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new TwitterCore(authConfig), new Digits());
 
         CurrentEventFragment currentEventFragment = CurrentEventFragment.newInstance();
         this.addFragmentToContainer(currentEventFragment, null);
-
-
     }
 
     @Override
