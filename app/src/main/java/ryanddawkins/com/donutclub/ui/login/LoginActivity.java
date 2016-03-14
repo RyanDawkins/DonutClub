@@ -3,17 +3,25 @@ package ryanddawkins.com.donutclub.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
+import ryanddawkins.com.donutclub.data.access.firebase.FirebaseAuthAccess;
 import ryanddawkins.com.donutclub.data.services.FirebaseAuthService;
 import ryanddawkins.com.donutclub.ui.event.current.CurrentEventActivity;
 
@@ -68,7 +76,8 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
 
         CallbackManager callbackManager = CallbackManager.Factory.create();
 
-        this.facebookSigninBtn.setReadPermissions("user_friends");
+        this.facebookSigninBtn.setReadPermissions("email");
+        this.facebookSigninBtn.setReadPermissions("public_profile");
         this.facebookSigninBtn.registerCallback(callbackManager, this);
     }
 
@@ -83,18 +92,38 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
     }
 
     @Override
-    public void onSuccess(LoginResult loginResult) {
+    public void onSuccess(final LoginResult loginResult) {
+        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
 
+                if(response.getError() != null) {
+                    Log.e("graphRequestError", response.toString());
+                }
+
+                String email;
+                try {
+                    email = object.getString("email");
+                } catch(JSONException ex) {
+                    email = null;
+                }
+
+                loginPresenter.onLoginSuccess(new FacebookLoginSuccessAdapter(loginResult, email, getPhoneNumber()));
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "email");
+        graphRequest.setParameters(parameters);
+        graphRequest.executeAsync();
     }
 
     @Override
     public void onCancel() {
-
     }
 
     @Override
     public void onError(FacebookException error) {
-
+        this.loginPresenter.onLoginError(new FacebookLoginErrorAdapter(error));
     }
 
     @Override
@@ -103,5 +132,16 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
         intent.putExtra(CurrentEventActivity.GROUP_ID, groupId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
+                .getLine1Number();
+    }
+
+    @Override
+    public void showMessage(String message) {
+
     }
 }

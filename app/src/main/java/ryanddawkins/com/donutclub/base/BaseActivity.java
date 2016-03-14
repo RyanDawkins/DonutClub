@@ -6,9 +6,12 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import butterknife.Bind;
@@ -29,6 +32,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityView 
     @Nullable
     @Bind(R.id.toolbar)
     protected Toolbar toolbar;
+
+    @Nullable
+    @Bind(R.id.parent_view)
+    protected View parentView;
 
     protected FragmentManager fragmentManager = null;
     private BaseActivityController baseActivityController;
@@ -127,4 +134,13 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityView 
         this.startActivity(intent);
         this.finish();
     }
+
+    public void showSnackbar(String text) {
+        if(this.parentView != null) {
+            Snackbar.make(this.parentView, text, Snackbar.LENGTH_SHORT).show();
+        } else {
+            Log.e("baseActivity", "parentView is null");
+        }
+    }
+
 }

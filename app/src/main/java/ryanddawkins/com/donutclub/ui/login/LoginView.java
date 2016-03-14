@@ -7,4 +7,8 @@ public interface LoginView {
 
     void navigateToCurrentEvent(String groupId);
 
+    String getPhoneNumber();
+
+    void showMessage(String message);
+
 }

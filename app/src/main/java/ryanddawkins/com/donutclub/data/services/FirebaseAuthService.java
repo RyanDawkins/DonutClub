@@ -1,8 +1,6 @@
 package ryanddawkins.com.donutclub.data.services;
 
-import com.firebase.client.Firebase;
-
-import ryanddawkins.com.donutclub.data.access.firebase.FirebaseUtil;
+import ryanddawkins.com.donutclub.data.access.AuthAccess;
 import ryanddawkins.com.donutclub.data.pojo.User;
 
 /**
@@ -10,22 +8,24 @@ import ryanddawkins.com.donutclub.data.pojo.User;
  */
 public class FirebaseAuthService implements AuthService {
 
-    private User currentUser;
+    private AuthAccess authAccess;
+
+    public FirebaseAuthService() {
+        this.authAccess = authAccess;
+    }
 
     @Override
     public boolean isSignedin() {
-        Firebase ref = FirebaseUtil.getFirebaseBaseRef();
-
-        return ref.getAuth() != null;
+        return this.authAccess.isLoggedIn();
     }
 
     @Override
     public User getCurrentUser() {
-        return this.currentUser;
+        return this.authAccess.getCurrentUser();
     }
 
     @Override
     public void setCurrentUser(User user) {
-        this.currentUser = currentUser;
+        this.authAccess.setCurrentUser(user);
     }
 }
