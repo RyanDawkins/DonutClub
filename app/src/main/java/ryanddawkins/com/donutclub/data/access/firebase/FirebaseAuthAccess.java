@@ -57,4 +57,11 @@ public class FirebaseAuthAccess implements AuthAccess, Firebase.AuthResultHandle
         Log.e("firebaseAuthError", firebaseError.getDetails());
         this.authCallback.onAuthError(firebaseError.getMessage());
     }
+
+    @Override
+    public void saveCurrentUser(String userId) {
+        this.currentUser.setId(userId);
+        Firebase userRef = FirebaseUtil.getFirebaseBaseRef().child("users").child(userId);
+        userRef.setValue(this.getCurrentUser());
+    }
 }

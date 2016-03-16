@@ -6,7 +6,7 @@ import com.facebook.FacebookSdk;
 import com.firebase.client.Firebase;
 
 import ryanddawkins.com.donutclub.data.services.AuthService;
-import ryanddawkins.com.donutclub.data.services.FirebaseAuthService;
+import ryanddawkins.com.donutclub.data.services.firebase.FirebaseAuthService;
 
 /**
  * Created by ryan on 3/3/16.

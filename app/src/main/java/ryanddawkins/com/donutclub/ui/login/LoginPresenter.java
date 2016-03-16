@@ -13,30 +13,14 @@ public class LoginPresenter implements AuthCallback {
 
     public LoginPresenter(LoginView loginView, AuthService authService) {
         this.loginView = loginView;
+        this.authService = authService;
     }
 
-    public void onLoginSuccess(LoginSuccessAdapter loginSuccessAdapter) {
-        this.authService.setCurrentUser(loginSuccessAdapter.getUser());
-
-    }
-
-    public void onLoginError(LoginErrorAdapter loginErrorAdapter) {
-
-    }
-
-    /**
-     * Methods from the auth callback for the authService stuff
-     * @param userId
-     */
     @Override
     public void onAuthSuccess(String userId) {
 
     }
 
-    /**
-     * Methods passed into the auth service for callback
-     * @param message
-     */
     @Override
     public void onAuthError(String message) {
 

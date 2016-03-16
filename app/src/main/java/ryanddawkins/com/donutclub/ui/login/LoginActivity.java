@@ -4,25 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.Bind;
+import ryanddawkins.com.donutclub.DonutClub;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
-import ryanddawkins.com.donutclub.data.access.firebase.FirebaseAuthAccess;
-import ryanddawkins.com.donutclub.data.services.FirebaseAuthService;
+import ryanddawkins.com.donutclub.data.access.AuthAccess;
+import ryanddawkins.com.donutclub.data.services.AuthService;
+import ryanddawkins.com.donutclub.data.services.FacebookSigninService;
 import ryanddawkins.com.donutclub.ui.event.current.CurrentEventActivity;
 
 /**
@@ -47,7 +43,7 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
         this.setupFacebookBtn();
         this.setupGoogleBtn();
 
-        this.loginPresenter = new LoginPresenter(this, new FirebaseAuthService());
+        this.loginPresenter = new LoginPresenter(this);
     }
 
     /**
@@ -75,10 +71,12 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
         }
 
         CallbackManager callbackManager = CallbackManager.Factory.create();
+        AuthService authService = DonutClub.getInstance().getAuthService();
+        FacebookSigninService facebookSigninService = new FacebookSigninService(authService, this.loginPresenter, getPhoneNumber());
 
         this.facebookSigninBtn.setReadPermissions("email");
         this.facebookSigninBtn.setReadPermissions("public_profile");
-        this.facebookSigninBtn.registerCallback(callbackManager, this);
+        this.facebookSigninBtn.registerCallback(callbackManager, facebookSigninService);
     }
 
     private void setupGoogleBtn() {
@@ -87,43 +85,6 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
             return;
         }
 
-
-
-    }
-
-    @Override
-    public void onSuccess(final LoginResult loginResult) {
-        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-
-                if(response.getError() != null) {
-                    Log.e("graphRequestError", response.toString());
-                }
-
-                String email;
-                try {
-                    email = object.getString("email");
-                } catch(JSONException ex) {
-                    email = null;
-                }
-
-                loginPresenter.onLoginSuccess(new FacebookLoginSuccessAdapter(loginResult, email, getPhoneNumber()));
-            }
-        });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "email");
-        graphRequest.setParameters(parameters);
-        graphRequest.executeAsync();
-    }
-
-    @Override
-    public void onCancel() {
-    }
-
-    @Override
-    public void onError(FacebookException error) {
-        this.loginPresenter.onLoginError(new FacebookLoginErrorAdapter(error));
     }
 
     @Override
@@ -142,6 +103,6 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
 
     @Override
     public void showMessage(String message) {
-
+        showSnackbar(message);
     }
 }

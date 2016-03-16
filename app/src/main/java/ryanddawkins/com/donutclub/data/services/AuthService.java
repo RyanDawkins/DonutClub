@@ -25,4 +25,5 @@ public interface AuthService {
      */
     void setCurrentUser(User user);
 
+    void authenticate(String token);
 }

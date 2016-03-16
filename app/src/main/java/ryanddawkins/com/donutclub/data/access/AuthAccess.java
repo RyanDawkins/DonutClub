@@ -15,4 +15,6 @@ public interface AuthAccess {
 
     void setCurrentUser(User user);
 
+    void saveCurrentUser(String userId);
+
 }
