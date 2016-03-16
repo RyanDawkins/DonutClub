@@ -39,4 +39,11 @@ public class FirebaseUserAccess implements UserAccess {
             }
         });
     }
+
+    @Override
+    public void saveUser(User user, String userId) {
+        user.setId(userId);
+        Firebase userRef = FirebaseUtil.getFirebaseBaseRef().child("users").child(userId);
+        userRef.setValue(user);
+    }
 }

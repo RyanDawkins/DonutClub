@@ -6,9 +6,6 @@ import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
@@ -16,15 +13,17 @@ import butterknife.Bind;
 import ryanddawkins.com.donutclub.DonutClub;
 import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
-import ryanddawkins.com.donutclub.data.access.AuthAccess;
+import ryanddawkins.com.donutclub.data.access.firebase.FirebaseUserAccess;
 import ryanddawkins.com.donutclub.data.services.AuthService;
 import ryanddawkins.com.donutclub.data.services.FacebookSigninService;
+import ryanddawkins.com.donutclub.data.services.UserAccessService;
+import ryanddawkins.com.donutclub.data.services.UserService;
 import ryanddawkins.com.donutclub.ui.event.current.CurrentEventActivity;
 
 /**
  * Created by ryan on 3/6/16.
  */
-public class LoginActivity extends BaseActivity implements FacebookCallback<LoginResult>, LoginView {
+public class LoginActivity extends BaseActivity implements LoginView {
 
     private LoginPresenter loginPresenter;
 
@@ -43,7 +42,9 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
         this.setupFacebookBtn();
         this.setupGoogleBtn();
 
-        this.loginPresenter = new LoginPresenter(this);
+        UserService userService = new UserAccessService(new FirebaseUserAccess());
+
+        this.loginPresenter = new LoginPresenter(this, DonutClub.getInstance().getAuthService(), userService);
     }
 
     /**
@@ -105,4 +106,5 @@ public class LoginActivity extends BaseActivity implements FacebookCallback<Logi
     public void showMessage(String message) {
         showSnackbar(message);
     }
+
 }

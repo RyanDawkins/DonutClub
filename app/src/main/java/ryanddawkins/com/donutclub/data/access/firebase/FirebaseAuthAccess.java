@@ -15,19 +15,22 @@ import ryanddawkins.com.donutclub.data.pojo.User;
  */
 public class FirebaseAuthAccess implements AuthAccess, Firebase.AuthResultHandler {
 
-    private String type;
     private AuthCallback authCallback;
     private User currentUser;
 
-    public FirebaseAuthAccess(AuthCallback authCallback, String type) {
-        this.type = type;
+    public FirebaseAuthAccess(AuthCallback authCallback) {
         this.authCallback = authCallback;
     }
 
+    /**
+     *
+     * @param token
+     * @param type
+     */
     @Override
-    public void authenticate(String token) {
+    public void authenticate(String token, String type) {
         Firebase ref = FirebaseUtil.getFirebaseBaseRef();
-        ref.authWithOAuthToken(this.type, token, this);
+        ref.authWithOAuthToken(type, token, this);
     }
 
     @Override

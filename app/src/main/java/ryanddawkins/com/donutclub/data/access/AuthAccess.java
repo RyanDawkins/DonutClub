@@ -7,7 +7,7 @@ import ryanddawkins.com.donutclub.data.pojo.User;
  */
 public interface AuthAccess {
 
-    void authenticate(String token);
+    void authenticate(String token, String type);
 
     boolean isLoggedIn();
 

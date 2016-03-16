@@ -31,7 +31,9 @@ public class FirebaseAuthService implements AuthService {
     }
 
     @Override
-    public void authenticate(String token) {
-        this.authAccess.authenticate(token);
+    public void authenticate(String token, String type) {
+        this.authAccess.authenticate(token, type);
     }
+
+
 }

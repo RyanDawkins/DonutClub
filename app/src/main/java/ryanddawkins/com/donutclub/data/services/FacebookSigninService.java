@@ -48,7 +48,7 @@ public class FacebookSigninService implements FacebookCallback<LoginResult> {
                     email = object.getString("email");
                     user.setEmail(email);
                     authService.setCurrentUser(user);
-                    authService.authenticate(accessToken.getToken());
+                    authService.authenticate(accessToken.getToken(), "facebook");
 
                 } catch (JSONException e) {
                     authCallback.onAuthError(e.getMessage());

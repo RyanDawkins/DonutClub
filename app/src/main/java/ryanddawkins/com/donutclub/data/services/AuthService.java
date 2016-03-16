@@ -25,5 +25,10 @@ public interface AuthService {
      */
     void setCurrentUser(User user);
 
-    void authenticate(String token);
+    /**
+     * Authenticates the token against firebase.
+     * @param token token from auth service
+     * @param type type of service used
+     */
+    void authenticate(String token, String type);
 }
