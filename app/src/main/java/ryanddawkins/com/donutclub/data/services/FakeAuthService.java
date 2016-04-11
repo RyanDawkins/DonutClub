@@ -44,4 +44,8 @@ public class FakeAuthService implements AuthService {
         this.currentUser = user;
     }
 
+    @Override
+    public void authenticate(String token, String type) {
+
+    }
 }

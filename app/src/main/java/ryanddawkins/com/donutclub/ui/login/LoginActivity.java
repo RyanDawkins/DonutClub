@@ -1,8 +1,12 @@
 package ryanddawkins.com.donutclub.ui.login;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 
 import com.facebook.CallbackManager;
@@ -15,7 +19,6 @@ import ryanddawkins.com.donutclub.R;
 import ryanddawkins.com.donutclub.base.BaseActivity;
 import ryanddawkins.com.donutclub.data.access.firebase.FirebaseUserAccess;
 import ryanddawkins.com.donutclub.data.services.AuthService;
-import ryanddawkins.com.donutclub.data.services.FacebookSigninService;
 import ryanddawkins.com.donutclub.data.services.UserAccessService;
 import ryanddawkins.com.donutclub.data.services.UserService;
 import ryanddawkins.com.donutclub.ui.event.current.CurrentEventActivity;
@@ -26,6 +29,8 @@ import ryanddawkins.com.donutclub.ui.event.current.CurrentEventActivity;
 public class LoginActivity extends BaseActivity implements LoginView {
 
     private LoginPresenter loginPresenter;
+
+    private static final int REQUEST_CODE_SMS_PERMISSION = 255;
 
     @Nullable
     @Bind(R.id.facebook_sign_in_btn)
@@ -39,12 +44,12 @@ public class LoginActivity extends BaseActivity implements LoginView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.setupFacebookBtn();
         this.setupGoogleBtn();
 
         UserService userService = new UserAccessService(new FirebaseUserAccess());
 
         this.loginPresenter = new LoginPresenter(this, DonutClub.getInstance().getAuthService(), userService);
+        this.loginPresenter.setupSms();
     }
 
     /**
@@ -73,19 +78,18 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
         CallbackManager callbackManager = CallbackManager.Factory.create();
         AuthService authService = DonutClub.getInstance().getAuthService();
-        FacebookSigninService facebookSigninService = new FacebookSigninService(authService, this.loginPresenter, getPhoneNumber());
 
-        this.facebookSigninBtn.setReadPermissions("email");
-        this.facebookSigninBtn.setReadPermissions("public_profile");
-        this.facebookSigninBtn.registerCallback(callbackManager, facebookSigninService);
+        this.facebookSigninBtn.registerCallback(callbackManager, this.loginPresenter);
     }
 
     private void setupGoogleBtn() {
-
         if(this.googleSigninBtn == null) {
             return;
         }
+    }
 
+    public void onSetupSms() {
+        setupFacebookBtn();
     }
 
     @Override
@@ -107,4 +111,28 @@ public class LoginActivity extends BaseActivity implements LoginView {
         showSnackbar(message);
     }
 
+    @Override
+    public boolean hasSmsPermission() {
+        return ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void showSmsPermissionDialog() {
+        ActivityCompat.requestPermissions(LoginActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_SMS_PERMISSION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode) {
+            case REQUEST_CODE_SMS_PERMISSION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.loginPresenter.onSmsPermissionGranted();
+                } else {
+                    this.loginPresenter.onSmsPermissionDenied("READ_SMS Denied");
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }

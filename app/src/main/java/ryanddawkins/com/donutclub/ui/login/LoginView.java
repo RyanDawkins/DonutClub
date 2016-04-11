@@ -11,4 +11,10 @@ public interface LoginView {
 
     void showMessage(String message);
 
+    boolean hasSmsPermission();
+
+    void showSmsPermissionDialog();
+
+    void onSetupSms();
+
 }

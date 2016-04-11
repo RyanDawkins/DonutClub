@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.facebook.appevents.AppEventsLogger;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ryanddawkins.com.donutclub.R;
@@ -74,6 +76,18 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityView 
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
     /**

@@ -18,19 +18,16 @@ public class FirebaseAuthAccess implements AuthAccess, Firebase.AuthResultHandle
     private AuthCallback authCallback;
     private User currentUser;
 
-    public FirebaseAuthAccess(AuthCallback authCallback) {
-        this.authCallback = authCallback;
-    }
-
     /**
      *
      * @param token
      * @param type
      */
     @Override
-    public void authenticate(String token, String type) {
+    public void authenticate(String token, String type, AuthCallback authCallback) {
         Firebase ref = FirebaseUtil.getFirebaseBaseRef();
         ref.authWithOAuthToken(type, token, this);
+        this.authCallback = authCallback;
     }
 
     @Override
